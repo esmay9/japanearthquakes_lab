@@ -73,8 +73,8 @@ tr:nth-child(even) {
 
      async function fetchGeojsonData() {
          const [earthquakeResponse, japanResponse] = await Promise.all([
-             fetch('earthquakes.geojson'),
-             fetch('japan.json')
+             fetch('Assets/earthquakes.geojson'),
+             fetch('Assets/japan.json')
          ]);
 
          const earthquakes = await earthquakeResponse.json();
