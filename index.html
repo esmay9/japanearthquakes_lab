@@ -77,7 +77,7 @@
 
      async function fetchGeojsonData() {
          const [yelp_dataResponse] = await Promise.all([
-             fetch('Assets/yelp_data.json')
+             fetch('Assets/yelp_data.geojson')
          ]);
          
          const yelp_data = await yelp_dataResponse.json();
