@@ -69,8 +69,8 @@ tr:nth-child(even) {
      const map = new mapboxgl.Map({
          container: 'map', // container ID
          style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-         zoom: 40, // starting zoom
-         center: [-122.3328, 47.6061] // starting center
+         zoom: 20, // starting zoom
+         center: [-122.3075, 47.6546] // starting center
      });
 
      async function fetchGeojsonData() {
@@ -104,7 +104,7 @@ tr:nth-child(even) {
 
      function populateTable(yelp_data) {
          const table = document.getElementById("restaurant-table");
-         earthquakes.features.forEach(feature => {
+         yelp_data.features.forEach(feature => {
              const row = table.insertRow();
              const cell1 = row.insertCell(0);
              const cell2 = row.insertCell(1);
@@ -115,7 +115,7 @@ tr:nth-child(even) {
          });
      }
 
-     function sortTable() {
+     function sortRatings() {
          const table = document.getElementById("restaurant-table");
          const rows = Array.from(table.rows).slice(1); // exclude header row
          rows.sort((row1, row2) => {
@@ -125,8 +125,19 @@ tr:nth-child(even) {
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
      }
+     function sortReviews() {
+         const table = document.getElementById("restaurant-table");
+         const rows = Array.from(table.rows).slice(1); // exclude header row
+         rows.sort((row1, row2) => {
+             const rev1 = parseFloat(row1.cells[2].innerHTML);
+             const rev2 = parseFloat(row2.cells[2].innerHTML);
+             return rev2 - rev1; // descending order
+         });
+         rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
+     }
 
-     document.getElementById("rating-sort").addEventListener('click', sortTable);
+     document.getElementById("rating-sort").addEventListener('click', sortRatings);
+     document.getElementByID("review-sort").addEventListener('click', sortReviews);
 
      map.on('load', async () => {
          const { yelp_data } = await fetchGeojsonData();
