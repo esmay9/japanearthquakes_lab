@@ -73,27 +73,25 @@ tr:nth-child(even) {
      });
 
      async function fetchGeojsonData() {
-         const [earthquakeResponse, japanResponse] = await Promise.all([
-             fetch('Assets/earthquakes.geojson'),
-             fetch('Assets/japan.json')
+         const [yelpdataResponse] = await Promise.all([
+             fetch('Assets/yelp_data.json')
          ]);
+         
+         const yelp_data = await yelp_dataResponse.json();
 
-         const earthquakes = await earthquakeResponse.json();
-         const japan = await japanResponse.json();
-
-         return { earthquakes, japan };
+         return { yelp_data };
      }
 
-     function addMapLayers(map, earthquakes, japan) {
-         map.addSource('earthquakes', {
+     function addMapLayers(map, yelp_data) {
+         map.addSource('yelp_data', {
              type: 'geojson',
-             data: earthquakes
+             data: yelp_data
          });
 
          map.addLayer({
-             'id': 'earthquakes-layer',
+             'id': 'yelp-layer',
              'type': 'circle',
-             'source': 'earthquakes',
+             'source': 'yelp_data',
              'paint': {
                  'circle-radius': 8,
                  'circle-stroke-width': 2,
@@ -101,53 +99,38 @@ tr:nth-child(even) {
                  'circle-stroke-color': 'white'
              }
          });
-
-         map.addSource('japan', {
-             type: 'geojson',
-             data: japan
-         });
-
-         map.addLayer({
-             'id': 'japan-layer',
-             'type': 'fill',
-             'source': 'japan',
-             'paint': {
-                 'fill-color': '#0080ff', // blue color fill
-                 'fill-opacity': 0.5
-             }
-         });
      }
 
-     function populateTable(earthquakes) {
-         const table = document.getElementById("earthquake-table");
+     function populateTable(yelp_data) {
+         const table = document.getElementById("restaurant-table");
          earthquakes.features.forEach(feature => {
              const row = table.insertRow();
              const cell1 = row.insertCell(0);
              const cell2 = row.insertCell(1);
              const cell3 = row.insertCell(2);
-             cell1.innerHTML = feature.properties.id;
-             cell2.innerHTML = feature.properties.mag;
-             cell3.innerHTML = new Date(feature.properties.time).toLocaleDateString("en-US");
+             cell1.innerHTML = feature.properties.name;
+             cell2.innerHTML = feature.properties.rating;
+             cell3.innerHTML = feature.properties.reviews;
          });
      }
 
      function sortTable() {
-         const table = document.getElementById("earthquake-table");
+         const table = document.getElementById("restaurant-table");
          const rows = Array.from(table.rows).slice(1); // exclude header row
          rows.sort((row1, row2) => {
-             const mag1 = parseFloat(row1.cells[1].innerHTML);
-             const mag2 = parseFloat(row2.cells[1].innerHTML);
-             return mag2 - mag1; // descending order
+             const rat1 = parseFloat(row1.cells[1].innerHTML);
+             const rat2 = parseFloat(row2.cells[1].innerHTML);
+             return rat2 - rat1; // descending order
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
      }
 
-     document.getElementById("sort-button").addEventListener('click', sortTable);
+     document.getElementById("rating-sort").addEventListener('click', sortTable);
 
      map.on('load', async () => {
-         const { earthquakes, japan } = await fetchGeojsonData();
-         addMapLayers(map, earthquakes, japan);
-         populateTable(earthquakes);
+         const { yelp_data } = await fetchGeojsonData();
+         addMapLayers(map, yelp_data);
+         populateTable(yelp_data);
      });
    </script>
 </body>  
