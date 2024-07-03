@@ -50,25 +50,26 @@ tr:nth-child(even) {
 <body>
    <main id="container">
        <div id="side-panel">
-           <h2>Earthquake List</h2>
-           <button id="sort-button">Sort by Magnitude</button>
-           <table id="earthquake-table">
+           <h2>Restaurant List</h2>
+           <button id="rating-sort">Sort by Rating</button>
+           <button id="review-sort">Sort by Reviews</button>
+           <table id="restaurant-table">
                <tr>
-                   <th>id</th>
-                   <th>magnitude</th>
-                   <th>timestamp</th>
+                   <th>Name</th>
+                   <th>Rating</th>
+                   <th>Reviews</th>
                </tr>
            </table>
        </div>
        <div id="map"></div>
    </main>
    <script>
-     mapboxgl.accessToken = 'pk.eyJ1IjoiZXNtYXk5IiwiYSI6ImNseTR3dHVhYjA0bjcyaXByaHo1bmQweDYifQ.qBljCYeC3jhPnBn0piTHag';
+     mapboxgl.accessToken = 'pk.eyJ1IjoiZXNtYXktOSIsImEiOiJjbHk2N2Z4bWowNng5MmxvbDN3OW5vdWtlIn0.F6kqUf-KF58D8wlZe_8dYw';
      const map = new mapboxgl.Map({
          container: 'map', // container ID
          style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-         zoom: 5.5, // starting zoom
-         center: [138, 38] // starting center
+         zoom: 10, // starting zoom
+         center: [-122, 47] // starting center
      });
 
      async function fetchGeojsonData() {
