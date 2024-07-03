@@ -161,7 +161,7 @@
 
      map.on('load', async () => {
          const { yelp_data } = await fetchGeojsonData();
-         addMapLayers(map, yelp_data);
+         addMapLayers(map, u_district, yelp_data);
          populateTable(yelp_data);
      });
    </script>
