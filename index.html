@@ -71,21 +71,23 @@
      const map = new mapboxgl.Map({
          container: 'map', // container ID
          style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-         zoom: 10, // starting zoom
+         zoom: 13, // starting zoom
          center: [-122.3075, 47.6546] // starting center
      });
 
      async function fetchGeojsonData() {
-         const [yelp_dataResponse] = await Promise.all([
+         const [u_districtResponse, yelp_dataResponse] = await Promise.all([
+             fetch('Assets/U_District.geojson'),
              fetch('Assets/yelp_data.geojson')
          ]);
-         
+
+         const u_district = await u_districtResponse.json();
          const yelp_data = await yelp_dataResponse.json();
 
-         return { yelp_data };
+         return { u_district, yelp_data };
      }
 
-     function addMapLayers(map, yelp_data) {
+     function addMapLayers(map, u_district, yelp_data) {
          map.addSource('yelp_data', {
              type: 'geojson',
              data: yelp_data
@@ -102,6 +104,21 @@
                  'circle-stroke-color': 'white'
              }
          });
+
+         map.addSource('u_district', {
+                type: 'geojson',
+                data: u_district
+         });
+
+         map.addLayer({
+             'id': 'u_district-layer',
+             'type': 'fill',
+             'source': 'u_district',
+             'paint': {
+                 'fill-color: 'purple', 
+                 'fill-opacity': 0.5
+             }
+         })
      }
 
      function populateTable(yelp_data) {
