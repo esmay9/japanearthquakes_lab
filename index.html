@@ -110,15 +110,15 @@
                 data: u_district
          });
 
-         map.addLayer({
-             'id': 'u_district-layer',
-             'type': 'fill',
-             'source': 'u_district',
-             'paint': {
-                 'fill-color: 'purple', 
-                 'fill-opacity': 0.5
-             }
-         })
+        map.addLayer({
+            'id': 'u_district-layer',
+            'type': 'fill',
+            'source': 'u_district',
+            'paint': {
+            'fill-color': 'purple',  // corrected syntax here
+            'fill-opacity': 0.5
+            }
+        });
      }
 
      function populateTable(yelp_data) {
