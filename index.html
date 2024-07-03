@@ -160,7 +160,7 @@
      document.getElementById("review-sort").addEventListener('click', sortReviews);
 
      map.on('load', async () => {
-         const { yelp_data } = await fetchGeojsonData();
+         const { u_district, yelp_data } = await fetchGeojsonData();
          addMapLayers(map, u_district, yelp_data);
          populateTable(yelp_data);
      });
