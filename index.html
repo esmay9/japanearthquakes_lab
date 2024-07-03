@@ -50,7 +50,8 @@ tr:nth-child(even) {
 <body>
    <main id="container">
        <div id="side-panel">
-           <h2>Restaurant List</h2>
+           <h2>Restaurants of the University District</h2>
+           <p>Tracking Ratings and Reviews around the UW Campus</p>
            <button id="rating-sort">Sort by Rating</button>
            <button id="review-sort">Sort by Reviews</button>
            <table id="restaurant-table">
@@ -68,7 +69,7 @@ tr:nth-child(even) {
      const map = new mapboxgl.Map({
          container: 'map', // container ID
          style: 'mapbox://styles/mapbox/satellite-v9', // style URL
-         zoom: 10, // starting zoom
+         zoom: 40, // starting zoom
          center: [-122.3328, 47.6061] // starting center
      });
 
