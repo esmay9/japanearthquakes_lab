@@ -12,17 +12,12 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+
         #map {
             position: absolute;
             top: 0;
             bottom: 0;
             width: 100%;
-        }
-        #container {
-            display: flex;
-            height: 100vh;
-            flex-direction: row;
-            align-items: stretch;
         }
 
         #side-panel {
@@ -32,8 +27,10 @@
             width: 400px;
             height: 100%;
             background-color: white;
-            overflow-y: scroll;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
             z-index: 1;
+            padding: 20px;
             display: block;
         }
 
@@ -41,27 +38,55 @@
             #side-panel {
                 display: none;
             }
+        }
 
-        button {
+        h2 {
+            font-size: 1.5em;
             margin-bottom: 10px;
         }
 
+        p {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
         table {
-            border-collapse: collapse;
-            border-spacing: 0;
             width: 100%;
-            border: 1px solid #ddd;
+            border-collapse: collapse;
+            margin-bottom: 20px;
         }
 
         th, td {
+            padding: 12px;
             text-align: left;
-            padding: 16px;
+        }
+
+        th {
+            background-color: #f4f4f4;
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
         }
-                .table-row {
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             border-bottom: 1px solid #ddd;
@@ -140,8 +165,8 @@
             'type': 'fill',
             'source': 'u_district',
             'paint': {
-            'fill-color': 'purple',
-            'fill-opacity': 0.5
+                'fill-color': 'purple',
+                'fill-opacity': 0.5
             }
         });
      }
@@ -162,10 +187,10 @@
 
      function sortRatings() {
          const table = document.getElementById("restaurant-table");
-         const rows = Array.from(table.rows).slice(1); // exclude header row
+         const rows = Array.from(table.getElementsByClassName("table-row")).slice(1); // exclude header row
          rows.sort((row1, row2) => {
-             const rat1 = parseFloat(row1.cells[1].innerHTML);
-             const rat2 = parseFloat(row2.cells[1].innerHTML);
+             const rat1 = parseFloat(row1.children[1].innerText);
+             const rat2 = parseFloat(row2.children[1].innerText);
              return rat2 - rat1; // descending order
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
@@ -173,10 +198,10 @@
 
      function sortReviews() {
          const table = document.getElementById("restaurant-table");
-         const rows = Array.from(table.rows).slice(1); // exclude header row
+         const rows = Array.from(table.getElementsByClassName("table-row")).slice(1); // exclude header row
          rows.sort((row1, row2) => {
-             const rev1 = parseFloat(row1.cells[2].innerHTML);
-             const rev2 = parseFloat(row2.cells[2].innerHTML);
+             const rev1 = parseFloat(row1.children[2].innerText);
+             const rev2 = parseFloat(row2.children[2].innerText);
              return rev2 - rev1; // descending order
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
@@ -191,5 +216,7 @@
          populateTable(yelp_data);
      });
    </script>
+</body>  
+</html>
 </body>  
 </html>
