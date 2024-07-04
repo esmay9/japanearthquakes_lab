@@ -11,7 +11,12 @@
             margin: 0;
             padding: 0;
         }
-
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
         #container {
             display: flex;
             height: 100vh;
@@ -20,13 +25,22 @@
         }
 
         #side-panel {
-            flex-basis: 500px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background-color: white;
             overflow-y: scroll;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            display: block;
         }
 
-        #map {
-            flex-grow: 1;
-        }
+        @media (max-width: 1024px) {
+            #side-panel {
+                display: none;
+            }
 
         button {
             margin-bottom: 10px;
