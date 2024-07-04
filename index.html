@@ -41,6 +41,7 @@
         }
 
         h2 {
+            position: center;
             font-size: 1.5em;
             margin-bottom: 10px;
         }
@@ -71,7 +72,8 @@
 
         th, td {
             padding: 12px;
-            text-align: left;
+            text-align: center;
+            border: 1px solid #ddd;
         }
 
         th {
@@ -85,20 +87,6 @@
         tr:hover {
             background-color: #f1f1f1;
         }
-
-        .table-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .table-row th, .table-row td {
-            border-right: 1px solid #ddd;
-        }
-
-        .table-row th:last-child, .table-row td:last-child {
-            border-right: none;
-        }
     </style>
 </head>
 <body>
@@ -108,13 +96,13 @@
        <p>Tracking Ratings and Reviews around the UW Campus</p>
        <button id="rating-sort">Sort by Rating</button>
        <button id="review-sort">Sort by Reviews</button>
-       <div id="restaurant-table">
-           <div class="table-row">
+       <table id="restaurant-table">
+           <tr>
                <th>Name</th>
                <th>Rating</th>
                <th>Reviews</th>
-           </div>
-       </div>
+           </tr>
+       </table>
    </div>
    <script>
      mapboxgl.accessToken = 'pk.eyJ1IjoiZXNtYXktOSIsImEiOiJjbHk2N2Z4bWowNng5MmxvbDN3OW5vdWtlIn0.F6kqUf-KF58D8wlZe_8dYw';
@@ -174,23 +162,22 @@
      function populateTable(yelp_data) {
          const table = document.getElementById("restaurant-table");
          yelp_data.features.forEach(feature => {
-             const row = document.createElement('div');
-             row.className = 'table-row';
-             row.innerHTML = `
-                 <div>${feature.properties.name}</div>
-                 <div>${feature.properties.rating}</div>
-                 <div>${feature.properties.reviews}</div>
-             `;
-             table.appendChild(row);
+             const row = table.insertRow();
+             const cell1 = row.insertCell(0);
+             const cell2 = row.insertCell(1);
+             const cell3 = row.insertCell(2);
+             cell1.innerHTML = feature.properties.name;
+             cell2.innerHTML = feature.properties.rating;
+             cell3.innerHTML = feature.properties.reviews;
          });
      }
 
      function sortRatings() {
          const table = document.getElementById("restaurant-table");
-         const rows = Array.from(table.getElementsByClassName("table-row")).slice(1); // exclude header row
+         const rows = Array.from(table.rows).slice(1); // exclude header row
          rows.sort((row1, row2) => {
-             const rat1 = parseFloat(row1.children[1].innerText);
-             const rat2 = parseFloat(row2.children[1].innerText);
+             const rat1 = parseFloat(row1.cells[1].innerHTML);
+             const rat2 = parseFloat(row2.cells[1].innerHTML);
              return rat2 - rat1; // descending order
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
@@ -198,10 +185,10 @@
 
      function sortReviews() {
          const table = document.getElementById("restaurant-table");
-         const rows = Array.from(table.getElementsByClassName("table-row")).slice(1); // exclude header row
+         const rows = Array.from(table.rows).slice(1); // exclude header row
          rows.sort((row1, row2) => {
-             const rev1 = parseFloat(row1.children[2].innerText);
-             const rev2 = parseFloat(row2.children[2].innerText);
+             const rev1 = parseFloat(row1.cells[2].innerHTML);
+             const rev2 = parseFloat(row2.cells[2].innerHTML);
              return rev2 - rev1; // descending order
          });
          rows.forEach(row => table.appendChild(row)); // re-append rows in sorted order
@@ -216,7 +203,5 @@
          populateTable(yelp_data);
      });
    </script>
-</body>  
-</html>
 </body>  
 </html>
